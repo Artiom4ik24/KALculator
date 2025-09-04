@@ -24,15 +24,15 @@ const calculateOnServer = async (expression) => {
     });
 
     if (response.ok) {
-      const answer = await response.text();
-      return answer;
+      const okResponse = await response.json();
+      return okResponse.answer;
     } else {
       const errorResponse = await response.json();
       return errorResponse.message;
     }
 
   } catch (error) {
-    return "Server error.";
+    return error.message;
   }
 };
 
