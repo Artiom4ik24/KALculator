@@ -1,12 +1,15 @@
 # KALculator
 A project dedicated to teach MCS students how to work as a one big beautiful team. Only for smart people.
 
+# ВАЖНО
+Для каждой задачи создавайте отдельную ветку и используйте ветку своего направления (frontend/backend) в качестве базовой
+
 # Backend
 ## Quickstart
 Этот блок для запуска проекта. Если проект у вас ещё не развёрнут, см. "Инструкции по установке"
 
 1. Активируем наше виртуальное окружение
-2. python manage.py runserver
+2. ``python manage.py runserver``
 
 ## Инструкции по установке
 
