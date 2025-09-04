@@ -1,0 +1,3 @@
+backend/.venv
+backend/KALculator/db.sqlite3
+.idea
