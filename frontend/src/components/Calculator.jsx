@@ -25,15 +25,14 @@ const calculateOnServer = async (expression) => {
 
     if (response.ok) {
       const okResponse = await response.json();
-      return okResponse.answer;
+      return { success: true, message: okResponse.answer };
     } else {
       const errorResponse = await response.json();
-      return errorResponse.message;
+      return { success: false, message: errorResponse.message };
     }
-
   } catch (error) {
-    return error.message;
-  }
+    return { success: false, message: "Server error" };
+  } 
 };
 
 export default () => {
@@ -43,12 +42,12 @@ export default () => {
     if (type === 'send_string') {
       if (!display)
         return;
-      try {
-        const result = await calculateOnServer(display);
-        setDisplay(String(result));
-      } catch {
-        setDisplay('Error');
-        setTimeout(() => setDisplay(''), 1000)
+
+      const result = await calculateOnServer(display);  
+      setDisplay(String(result.message))
+
+      if (!result.success) {
+        setTimeout(() => setDisplay(''), 1000);
       }
     }
 
