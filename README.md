@@ -10,7 +10,7 @@ A project dedicated to teach MCS students how to work as a one big beautiful tea
 
 ## Инструкции по установке
 
-1. Создать и активировать виртуальное питоновское окружение в папке backend (рекомендую python >= 1.12, с ним точно работает, на остальных не проверял)
+1. Создать и активировать виртуальное питоновское окружение в папке backend (рекомендую python >= 3.12, с ним точно работает, на остальных не проверял)
 2. cd backend
 3. ``pip install -r requirements.txt``
 4. ``python manage.py migrate`` (**проверьте, что виртуальное окружение активно**)
@@ -27,3 +27,71 @@ TODO
 ## Инструкции по установке
 
 TODO
+
+
+# Endpoints
+
+### `POST /calculate/`
+
+**Description:**  
+Заглушка, которая всегда выдаёт число `732`.
+
+**Request:**
+
+```http
+POST /calculate/
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+  "equation": "2+2"
+}
+```
+
+**Responses:**
+
+✅ **200 OK**
+
+```json
+{
+  "answer": "732"
+}
+```
+
+❌ **400 Bad Request** (if no equation is provided)
+
+```json
+{
+  "message": "No equation provided"
+}
+```
+
+
+### `GET /history/`
+
+**Description:**  
+Заглушка для истории
+
+**Request:**
+
+```http
+GET /history/
+```
+
+**Response:**
+✅ **200 OK**
+```json
+[
+  {
+    "equation": "2+2",
+    "answer": "4"
+  },
+  {
+    "equation": "5/0",
+    "answer": "ERR"
+  }
+]
+```
