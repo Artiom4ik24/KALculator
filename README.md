@@ -14,7 +14,7 @@ A project dedicated to teach MCS students how to work as a one big beautiful tea
 ## Инструкции по установке
 
 1. Создать и активировать виртуальное питоновское окружение в папке backend (рекомендую python >= 1.12, с ним точно работает, на остальных не проверял)
-2. cd backend
+2. ``cd backend/KALculator``
 3. ``pip install -r requirements.txt``
 4. ``python manage.py migrate`` (**проверьте, что виртуальное окружение активно**)
 5. ``python manage.py createsuperuser --username admin --email admin@example.com `` (создали пользователя для с таким username и паролем на случай если надо будет получить доступ к админской панели)
