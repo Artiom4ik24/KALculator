@@ -44,6 +44,13 @@ def calculate(request):
 
     try:
         result = eval_expr(input_str)
+        if isinstance(result, float):
+            # Round to max 9 digits after decimal
+            result = round(result, 9)
+            # If it's actually an integer (e.g., 4.0 → 4)
+            if result.is_integer():
+                result = int(result)
+
         return Response({"answer": str(result)}, status=status.HTTP_200_OK)
     except ValueError as e:
         return Response({"message": "Invalid expression"}, status=status.HTTP_400_BAD_REQUEST)

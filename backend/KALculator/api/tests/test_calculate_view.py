@@ -13,6 +13,16 @@ class CalculateViewTests(APITestCase):
         assert resp.status_code == status.HTTP_200_OK
         assert resp.data["answer"] == "4"
 
+    def test_calculate_success_round_float(self):
+        resp = self.client.post(self.url, {"equation": "2.3+3.7"}, format="json")
+        assert resp.status_code == status.HTTP_200_OK
+        assert resp.data["answer"] == "6"
+
+    def test_calculate_success_long(self):
+        resp = self.client.post(self.url, {"equation": "10/3"}, format="json")
+        assert resp.status_code == status.HTTP_200_OK
+        assert resp.data["answer"] == "3.333333333"
+
     def test_calculate_parentheses_and_precedence(self):
         resp = self.client.post(self.url, {"equation": "(2+3)*4-6/2"}, format="json")
         assert resp.status_code == status.HTTP_200_OK
