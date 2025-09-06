@@ -42,6 +42,7 @@ export default ({ onButtonClick }) => {
             : btn.type === 'clear' ? 'clear'
             : btn.type === 'send_string' ? 'send_string'
             : btn.type === 'reverse' ? 'reverse'
+            : btn.type === 'ask_history' ? 'ask_history'
             : 'digit'}
           onClick={() => onButtonClick(btn.value ?? btn.label, btn.type)}
         />
