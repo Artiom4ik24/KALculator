@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 
 export default () => {
   const [display, setDisplay] = useState('0');
+  const [bracesDiff, setBracesDiff] = useState(0);
 
   const handleButton = (value, type) => {
     if (type === 'digit') {
@@ -38,12 +39,22 @@ export default () => {
         prev :
         prev === '-' ?
         '0' : 
-        '/*+-'.includes(prev.at(-1)) ? 
+        '/*+'.includes(prev.at(-1)) ? 
         prev.slice(0, -1) + value : 
+        prev.at(-1) === '(' && value !== '-' ?
+        prev :
+        prev.at(-1) === '-' && prev.at(-2) === '(' ?
+        (
+          value === '-' ?
+          prev : 
+          prev.slice(0, -1)
+        ) :
         prev + value);
     } else if (type === 'dot') {
       setDisplay(prev => 
-        '/*+-'.includes(prev.at(-1)) ? 
+        prev.at(-1) === ')' ? 
+        prev + '*0' + value :
+        '/*+-('.includes(prev.at(-1)) ? 
         prev + '0' + value : 
         prev.lastIndexOf(value) == -1 ?
         prev + value :
@@ -53,6 +64,24 @@ export default () => {
         prev :
         prev + value
       )
+    } else if (type == 'l_brace') {
+      setDisplay(prev =>
+        prev === '0' ? 
+        value :
+        '0123456789.'.includes(prev.at(-1)) ? 
+        prev + '*' + value :
+        prev + value
+      )
+      setBracesDiff(prev => prev + 1)
+    } else if (type == 'r_brace') {
+      if (bracesDiff > 0 && display.at(-1) !== '(') {
+        setDisplay(prev =>
+          '/*+-'.includes(prev.at(-1)) ? 
+          prev.slice(0, -1) + value : 
+          prev + value
+        )
+        setBracesDiff(prev => prev - 1)
+      }
     } else if (type === 'clear') {
       if (value === 'C') {
         setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : '0');

@@ -30,6 +30,8 @@ export default ({ onButtonClick }) => {
     { label: '0', type: 'digit' },
     { label: '.', type: 'dot' },
     { label: '=', type: 'send_string' },
+    { label: '(', type: 'l_brace'}, 
+    { label: ')', type: 'r_brace'}, 
   ];
 
   return (
@@ -43,6 +45,8 @@ export default ({ onButtonClick }) => {
             : btn.type === 'send_string' ? 'send_string'
             : btn.type === 'reverse' ? 'reverse'
             : btn.type === 'dot' ? 'dot'
+            : btn.type === 'l_brace' ? 'l_brace'
+            : btn.type === 'r_brace' ? 'r_brace'
             : 'digit'}
           onClick={() => onButtonClick(btn.value ?? btn.label, btn.type)}
         />
