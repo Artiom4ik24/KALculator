@@ -14,14 +14,51 @@ const Wrapper = styled.div`
 `;
 
 export default () => {
-  const [display, setDisplay] = useState('');
+  const [display, setDisplay] = useState('0');
 
   const handleButton = (value, type) => {
-    if (type === 'digit' || type === 'operation') {
-      setDisplay(prev => prev + value);
+    if (type === 'digit') {
+      setDisplay(prev => 
+        prev.at(-1) === '0' ?
+        (
+          prev.length == 1 ?
+          value :
+          '/*+-'.includes(prev.at(-2)) ?
+          prev.slice(0, -1) + value :
+          prev + value
+        ) :
+        prev + value);
+    } else if (type === 'operation') {
+      setDisplay(prev => 
+        prev === '0' && value === '-' ?
+        value :
+        prev === '0' ?
+        prev :
+        prev === '-' && value === '-' ?
+        prev :
+        prev === '-' ?
+        '0' : 
+        '/*+-'.includes(prev.at(-1)) ? 
+        prev.slice(0, -1) + value : 
+        prev + value);
+    } else if (type === 'dot') {
+      setDisplay(prev => 
+        '/*+-'.includes(prev.at(-1)) ? 
+        prev + '0' + value : 
+        prev.lastIndexOf(value) == -1 ?
+        prev + value :
+        prev.lastIndexOf(value) == prev.length - 1 ?
+        prev :
+        /^\d+$/.test(prev.slice(prev.lastIndexOf(value) + 1, -1)) ? 
+        prev :
+        prev + value
+      )
     } else if (type === 'clear') {
-      if (value === 'C') setDisplay(prev => prev.slice(0, -1));
-      else if (value === 'AC') setDisplay('');
+      if (value === 'C') {
+        setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : '0');
+        if (prev === '') setDisplay('0');
+      }
+      else if (value === 'AC') setDisplay('0');
     }
   };
 

@@ -28,7 +28,7 @@ export default ({ onButtonClick }) => {
     { label: '+', type: 'operation', value: '+' },
     { label: 'H', type: 'ask_history' },
     { label: '0', type: 'digit' },
-    { label: '.', type: 'digit' },
+    { label: '.', type: 'dot' },
     { label: '=', type: 'send_string' },
   ];
 
@@ -42,6 +42,7 @@ export default ({ onButtonClick }) => {
             : btn.type === 'clear' ? 'clear'
             : btn.type === 'send_string' ? 'send_string'
             : btn.type === 'reverse' ? 'reverse'
+            : btn.type === 'dot' ? 'dot'
             : 'digit'}
           onClick={() => onButtonClick(btn.value ?? btn.label, btn.type)}
         />
