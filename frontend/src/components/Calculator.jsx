@@ -85,7 +85,6 @@ export default () => {
     } else if (type === 'clear') {
       if (value === 'C') {
         setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : '0');
-        if (prev === '') setDisplay('0');
       }
       else if (value === 'AC') setDisplay('0');
     }
