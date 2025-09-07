@@ -2,13 +2,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
 from .models import History
 from .serializers import HistorySerializer
 import ast
 import operator as op
+from django.db import DatabaseError
 
 operators = {
     ast.Add: op.add,
@@ -56,9 +54,18 @@ def calculate(request):
             if result.is_integer():
                 result = int(result)
 
-        return Response({"answer": str(result)}, status=status.HTTP_200_OK)
+        answer = str(result)
+        status_code = status.HTTP_200_OK
+
     except ValueError as e:
-        return Response({"message": "Invalid expression"}, status=status.HTTP_400_BAD_REQUEST)
+        answer = "Invalid expression"
+        status_code = status.HTTP_400_BAD_REQUEST
+
+    History.objects.create(equation=input_str, answer=answer)
+    return Response(
+        {"answer" if status_code == status.HTTP_200_OK else "message": answer}, 
+        status=status_code
+    )
 
 
 # Заглушка для эндпоинта с историей
@@ -69,5 +76,5 @@ def history(request):
         serializer = HistorySerializer(history_list, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
-    except:
+    except DatabaseError:
         return Response({"message": "Database is unavailable"}, status=status.HTTP_400_BAD_REQUEST)
