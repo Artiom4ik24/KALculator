@@ -13,12 +13,44 @@ const Wrapper = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", sans-serif;
 `;
 
+const calculateOnServer = async (expression) => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/calculate/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ equation: expression })
+    });
+
+    if (response.ok) {
+      const okResponse = await response.json();
+      return { success: true, message: okResponse.answer };
+    } else {
+      const errorResponse = await response.json();
+      return { success: false, message: errorResponse.message };
+    }
+  } catch (error) {
+    return { success: false, message: "Server error" };
+  } 
+};
+
 export default () => {
   const [display, setDisplay] = useState('0');
   const [bracesDiff, setBracesDiff] = useState(0);
+  
+  const handleButton =  async (value, type) => {
+    if (type === 'send_string') {
+      if (!display)
+        return;
 
-  const handleButton = (value, type) => {
-    if (type === 'digit') {
+      const result = await calculateOnServer(display);  
+      setDisplay(String(result.message))
+
+      if (!result.success) {
+        setTimeout(() => setDisplay(''), 1000);
+      }
+    } else if (type === 'digit') {
       setDisplay(prev => 
         prev.at(-1) === '0' ?
         (
