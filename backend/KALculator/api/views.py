@@ -58,12 +58,13 @@ def calculate(request):
         status_code = status.HTTP_200_OK
 
     except ValueError as e:
-        answer = "Invalid expression"
+        answer = "Err"
+        message = "Invalid expression"
         status_code = status.HTTP_400_BAD_REQUEST
 
     History.objects.create(equation=input_str, answer=answer)
     return Response(
-        {"answer" if status_code == status.HTTP_200_OK else "message": answer}, 
+        {"answer": answer} if status_code == status.HTTP_200_OK else {"message": message}, 
         status=status_code
     )
 

@@ -76,7 +76,7 @@ class HistoryAPITest(APITestCase):
         data = response.json()
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]["equation"], "(10-3")
-        self.assertEqual(data[0]["answer"], "Invalid expression")
+        self.assertEqual(data[0]["answer"], "Err")
 
     def test_calculate_history_empty_equation(self):
         self.client.post("/calculate/", {}, format="json")
