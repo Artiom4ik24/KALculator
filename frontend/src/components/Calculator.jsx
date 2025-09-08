@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Display from './Display';
 import Keypad from './Keypad';
+import HistoryModal from './HistoryModal';
 
 const Wrapper = styled.div`
   width: 320px;
@@ -11,6 +12,10 @@ const Wrapper = styled.div`
   border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const calculateOnServer = async (expression) => {
@@ -36,7 +41,8 @@ const calculateOnServer = async (expression) => {
 };
 
 export default () => {
-  const [display, setDisplay] = useState('0');
+  const [display, setDisplay] = useState('');
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [bracesDiff, setBracesDiff] = useState(0);
   
   const handleButton =  async (value, type) => {
@@ -119,13 +125,25 @@ export default () => {
         setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : '0');
       }
       else if (value === 'AC') setDisplay('0');
+    } else if (type === 'ask_history') {
+      setIsHistoryOpen(true);
     }
+  };
+
+  const handleHistorySelect = (expression) => {
+    setDisplay(expression);
+    setIsHistoryOpen(false);
   };
 
   return (
     <Wrapper>
       <Display value={display} />
       <Keypad onButtonClick={handleButton} />
+      <HistoryModal
+        isOpen={isHistoryOpen}
+        onClose={() => setIsHistoryOpen(false)}
+        onSelectHistory={handleHistorySelect}
+      />
     </Wrapper>
   );
 };

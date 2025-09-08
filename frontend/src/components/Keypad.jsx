@@ -44,6 +44,7 @@ export default ({ onButtonClick }) => {
             : btn.type === 'clear' ? 'clear'
             : btn.type === 'send_string' ? 'send_string'
             : btn.type === 'reverse' ? 'reverse'
+            : btn.type === 'ask_history' ? 'ask_history'
             : btn.type === 'dot' ? 'dot'
             : btn.type === 'l_brace' ? 'l_brace'
             : btn.type === 'r_brace' ? 'r_brace'
