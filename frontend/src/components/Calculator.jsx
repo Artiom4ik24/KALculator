@@ -41,7 +41,7 @@ const calculateOnServer = async (expression) => {
 };
 
 export default () => {
-  const [display, setDisplay] = useState('');
+  const [display, setDisplay] = useState('0');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [bracesDiff, setBracesDiff] = useState(0);
   
@@ -52,9 +52,11 @@ export default () => {
 
       const result = await calculateOnServer(display);  
       setDisplay(String(result.message))
+      setBracesDiff(0)
 
       if (!result.success) {
-        setTimeout(() => setDisplay(''), 1000);
+        setTimeout(() => setDisplay('0'), 1000);
+        setBracesDiff(0)
       }
     } else if (type === 'digit') {
       setDisplay(prev => 
@@ -122,9 +124,17 @@ export default () => {
       }
     } else if (type === 'clear') {
       if (value === 'C') {
+        if (display.at(-1) == ')') {
+          setBracesDiff(prev => prev + 1)
+        } else if (display.at(-1) == '(') {
+          setBracesDiff(prev => prev - 1);
+        }
         setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : '0');
       }
-      else if (value === 'AC') setDisplay('0');
+      else if (value === 'AC') {
+        setDisplay('0');
+        setBracesDiff(0);
+      }
     } else if (type === 'ask_history') {
       setIsHistoryOpen(true);
     }
