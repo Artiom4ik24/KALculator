@@ -137,6 +137,8 @@ export default () => {
       }
     } else if (type === 'ask_history') {
       setIsHistoryOpen(true);
+    } else if (type === 'reverse') {
+      setDisplay(prev => '-(' + prev + ')' )
     }
   };
 
