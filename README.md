@@ -25,8 +25,13 @@ A project dedicated to teach MCS students how to work as a one big beautiful tea
 ## Quickstart
 Этот блок для запуска проекта. Если проект у вас ещё не развёрнут, см. "Инструкции по установке"
 
-TODO
+1. ``npm run preview``
 
 ## Инструкции по установке
 
-TODO
+1. Убедитесь, что у вас установлены Node.js.
+C помощью ``node --version`` проверьте, что у вас v20.x.x
+2. Перейдите в папку ``frontend``, в которой расположены ``package.json`` и ``vite.config.js``
+3. Выполнить команду ``npm install``, чтобы установить все необходимые библиотеки
+4. ``npm run build``
+5. ``npm run preview``
